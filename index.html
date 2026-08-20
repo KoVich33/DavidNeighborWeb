@@ -1,220 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>David neighbor</title>
-		<style>
-html, body, #canvas {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Neighbor — download</title>
+    <link rel="stylesheet" href="style.css">
 
-body {
-	color: white;
-	background-color: black;
-	overflow: hidden;
-	touch-action: none;
-}
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="DavidNeighbor" />
+    <link rel="manifest" href="site.webmanifest" />
 
-#canvas {
-	display: block;
-}
+</head>
+<body>
+    <div class="container">
 
-#canvas:focus {
-	outline: none;
-}
+        <!-- Шапка -->
+        <div class="card header">
+            <img class="game-icon" src="res/icon.png">
+            <div class="header-info">
+                <h1>David Neighbor</h1>
+                <span class="developer">Kuzbas interactive</span>
+            </div>
+        </div>
 
-#status, #status-splash, #status-progress {
-	position: absolute;
-	left: 0;
-	right: 0;
-}
+        <div class="card screenshots-section">
+            <h2 style="margin-bottom: 16px;">Скриншоты</h2>
+            <div class="screenshots" id="screenshots-container">
+                <div class="screenshot shot-1" data-index="0">
+                    <img src="res/Screenshot1.png">
+                </div>
+                <div class="screenshot shot-2" data-index="1">
+                    <img src="res/Screenshot2.png">
+                </div>
+                <div class="screenshot shot-3" data-index="2">
+                    <img src="res/Screenshot3.png">
+                </div>
+                <div class="screenshot shot-4" data-index="3">
+                    <img src="res/Screenshot4.jpg">
+                </div>
+                <div class="screenshot shot-5" data-index="4">
+                    <img src="res/Screenshot5.png">
+                </div>
+            </div>
+        </div>
 
-#status, #status-splash {
-	top: 0;
-	bottom: 0;
-}
+        <!-- Описание -->
+        <div class="card description">
+            <div class="chips">
+                <span class="chip">Инди</span>
+                <span class="chip">Мультиплеер</span>
+                <span class="chip">Офлайн-режим</span>
+                <span class="chip">Хоррор</span>
+            </div>
+        </div>
 
-#status {
-	background-color: #242424;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	visibility: hidden;
-}
+        <!-- Ченджлог -->
+        <div class="card changelog">
+            <h2>Что нового</h2>
 
-#status-splash {
-	max-height: 100%;
-	max-width: 100%;
-	margin: auto;
-}
+            <div class="version">
+                <div class="version-header">
+                    <span class="version-name">Версия 26.08.2</span>
+                    <span class="version-date">17 августа 2026</span>
+                </div>
+                <ul>
+                    <li>Полностью переделанные анимации</li>
+                    <li>Новое меню настроек</li>
+                    <li>Исправлено большинство проблем, где игрок заостряет на карте</li>
+                    <li>Исправлена работа Discord activity API для windows - версии</li>
+                </ul>
+            </div>
 
-#status-splash.show-image--false {
-	display: none;
-}
+        <!-- Характеристики и Ссылки -->
+        <div class="card">
+            <h2 style="margin-bottom: 8px;">Информация о приложении</h2>
+            <table class="info-table">
+                <tr>
+                    <td>Версия</td>
+                    <td>26.08.2</td>
+                </tr>
+                <tr>
+                    <td>Обновлено</td>
+                    <td>17 августа 2026</td>
+                </tr>
+            </table>
 
-#status-splash.fullsize--true {
-	height: 100%;
-	width: 100%;
-	object-fit: contain;
-}
+            <div class="links">
+                <a href="https://disk.yandex.ru/d/4LR_ib_6bE5TMw" class="link-btn">📥💻 Скачать для windows (ZIP)</a>
+                <a href="https://disk.yandex.ru/d/BCYtKi5DQoT4Eg" class="link-btn">📥📱 Скачать android (APK)</a>
+                <a href="https://t.me/DavidNeighbor" class="link-btn">✈️ Telegram канал</a>
+            </div>
+        </div>
 
-#status-splash.use-filter--false {
-	image-rendering: pixelated;
-}
+        <div class="footer-note">
+            © 2026 Kuzbas interactive. Fangame, no rights are reserved. Assets copyright: tinyBuild Inc.
+        </div>
 
-#status-progress, #status-notice {
-	display: none;
-}
+    </div>
+    <!-- Модальное окно для просмотра скриншотов -->
+    <div class="modal" id="screenshot-modal">
+        <button class="modal-close" id="modal-close">✕</button>
+        <button class="modal-nav prev" id="modal-prev">‹</button>
+        <div class="modal-content">
+            <div class="modal-image" id="modal-image"></div>
+        </div>
+        <button class="modal-nav next" id="modal-next">›</button>
+        <div class="modal-caption" id="modal-caption"></div>
+        <div class="modal-counter" id="modal-counter">1 / 5</div>
+    </div>
 
-#status-progress {
-	bottom: 10%;
-	width: 50%;
-	margin: 0 auto;
-}
+    <script>
+        // Данные о скриншотах (можно заменить на реальные изображения)
+    const screenshots = [
+        {
+            image: "res/Screenshot1.png"
+        },
+        {
+            image: "res/Screenshot2.png"
+        },
+        {
+            image: "res/Screenshot3.png"
+        },
+        {
+            image: "res/Screenshot4.jpg"
+        },
+        {
+            image: "res/Screenshot5.png"
+        }
+    ];
 
-#status-notice {
-	background-color: #5b3943;
-	border-radius: 0.5rem;
-	border: 1px solid #9b3943;
-	color: #e0e0e0;
-	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
-	line-height: 1.3;
-	margin: 0 2rem;
-	overflow: hidden;
-	padding: 1rem;
-	text-align: center;
-	z-index: 1;
-}
-		</style>
-		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
-<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+        let currentScreenshotIndex = 0;
+        const modal = document.getElementById('screenshot-modal');
+        const modalImage = document.getElementById('modal-image');
+        const modalCaption = document.getElementById('modal-caption');
+        const modalCounter = document.getElementById('modal-counter');
+        const modalClose = document.getElementById('modal-close');
+        const modalPrev = document.getElementById('modal-prev');
+        const modalNext = document.getElementById('modal-next');
+        const screenshotElements = document.querySelectorAll('.screenshot');
 
-	</head>
-	<body>
-		<canvas id="canvas">
-			Your browser does not support the canvas tag.
-		</canvas>
+        // Функция для открытия модального окна
+        function openModal(index) {
+            currentScreenshotIndex = index;
+            updateModalContent();
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Блокируем прокрутку фона
+        }
 
-		<noscript>
-			Your browser does not support JavaScript.
-		</noscript>
+        // Функция для закрытия модального окна
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Возвращаем прокрутку
+        }
 
-		<div id="status">
-			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
-			<progress id="status-progress"></progress>
-			<div id="status-notice"></div>
-		</div>
+        // Функция для обновления содержимого модального окна
+        function updateModalContent() {
+            const screenshot = screenshots[currentScreenshotIndex];
+            
+            // Очищаем предыдущее содержимое
+            modalImage.innerHTML = '';
+            
+            // Создаем изображение
+            const img = document.createElement('img');
+            img.src = screenshot.image;
+            img.style.width = '100%';
+            img.style.height = '100%';
+            img.style.objectFit = 'contain';
+            img.style.borderRadius = '8px';
+            
+            modalImage.appendChild(img);
+            modalCounter.textContent = `${currentScreenshotIndex + 1} / ${screenshots.length}`;
+        }
 
-		<script src="index.js"></script>
-		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":420075544,"index.wasm":39509339},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
-const GODOT_THREADS_ENABLED = false;
-const engine = new Engine(GODOT_CONFIG);
+        // Функция для перехода к следующему скриншоту
+        function nextScreenshot() {
+            currentScreenshotIndex = (currentScreenshotIndex + 1) % screenshots.length;
+            updateModalContent();
+        }
 
-(function () {
-	const statusOverlay = document.getElementById('status');
-	const statusProgress = document.getElementById('status-progress');
-	const statusNotice = document.getElementById('status-notice');
+        // Функция для перехода к предыдущему скриншоту
+        function prevScreenshot() {
+            currentScreenshotIndex = (currentScreenshotIndex - 1 + screenshots.length) % screenshots.length;
+            updateModalContent();
+        }
 
-	let initializing = true;
-	let statusMode = '';
+        // Добавляем обработчики событий для скриншотов
+        screenshotElements.forEach((element, index) => {
+            element.addEventListener('click', () => {
+                openModal(index);
+            });
+        });
 
-	function setStatusMode(mode) {
-		if (statusMode === mode || !initializing) {
-			return;
-		}
-		if (mode === 'hidden') {
-			statusOverlay.remove();
-			initializing = false;
-			return;
-		}
-		statusOverlay.style.visibility = 'visible';
-		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
-		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
-		statusMode = mode;
-	}
+        // Обработчики для кнопок модального окна
+        modalClose.addEventListener('click', closeModal);
+        modalNext.addEventListener('click', nextScreenshot);
+        modalPrev.addEventListener('click', prevScreenshot);
 
-	function setStatusNotice(text) {
-		while (statusNotice.lastChild) {
-			statusNotice.removeChild(statusNotice.lastChild);
-		}
-		const lines = text.split('\n');
-		lines.forEach((line) => {
-			statusNotice.appendChild(document.createTextNode(line));
-			statusNotice.appendChild(document.createElement('br'));
-		});
-	}
+        // Закрытие модального окна при клике на фон
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
 
-	function displayFailureNotice(err) {
-		console.error(err);
-		if (err instanceof Error) {
-			setStatusNotice(err.message);
-		} else if (typeof err === 'string') {
-			setStatusNotice(err);
-		} else {
-			setStatusNotice('An unknown error occurred.');
-		}
-		setStatusMode('notice');
-		initializing = false;
-	}
+        // Обработка клавиатуры
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeModal();
+                    break;
+                case 'ArrowLeft':
+                    prevScreenshot();
+                    break;
+                case 'ArrowRight':
+                    nextScreenshot();
+                    break;
+            }
+        });
 
-	const missing = Engine.getMissingFeatures({
-		threads: GODOT_THREADS_ENABLED,
-	});
+        // Добавляем свайпы для мобильных устройств
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-	if (missing.length !== 0) {
-		if (GODOT_CONFIG['serviceWorker'] && GODOT_CONFIG['ensureCrossOriginIsolationHeaders'] && 'serviceWorker' in navigator) {
-			let serviceWorkerRegistrationPromise;
-			try {
-				serviceWorkerRegistrationPromise = navigator.serviceWorker.getRegistration();
-			} catch (err) {
-				serviceWorkerRegistrationPromise = Promise.reject(new Error('Service worker registration failed.'));
-			}
-			// There's a chance that installing the service worker would fix the issue
-			Promise.race([
-				serviceWorkerRegistrationPromise.then((registration) => {
-					if (registration != null) {
-						return Promise.reject(new Error('Service worker already exists.'));
-					}
-					return registration;
-				}).then(() => engine.installServiceWorker()),
-				// For some reason, `getRegistration()` can stall
-				new Promise((resolve) => {
-					setTimeout(() => resolve(), 2000);
-				}),
-			]).then(() => {
-				// Reload if there was no error.
-				window.location.reload();
-			}).catch((err) => {
-				console.error('Error while registering service worker:', err);
-			});
-		} else {
-			// Display the message as usual
-			const missingMsg = 'Error\nThe following features required to run Godot projects on the Web are missing:\n';
-			displayFailureNotice(missingMsg + missing.join('\n'));
-		}
-	} else {
-		setStatusMode('progress');
-		engine.startGame({
-			'onProgress': function (current, total) {
-				if (current > 0 && total > 0) {
-					statusProgress.value = current;
-					statusProgress.max = total;
-				} else {
-					statusProgress.removeAttribute('value');
-					statusProgress.removeAttribute('max');
-				}
-			},
-		}).then(() => {
-			setStatusMode('hidden');
-		}, displayFailureNotice);
-	}
-}());
-		</script>
-	</body>
+        modal.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        modal.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+            
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    prevScreenshot();
+                } else {
+                    nextScreenshot();
+                }
+            }
+        }
+
+        // Добавляем подсказку о возможности клика
+        screenshotElements.forEach(element => {
+            element.style.cursor = 'zoom-in';
+            element.title = 'Нажмите для просмотра';
+        });
+    </script>
+</body>
 </html>
-
+</body>
+</html>
